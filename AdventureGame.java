@@ -1,31 +1,34 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class AdventureGame {
 	
 	private static Scanner scanner = new Scanner(System.in);
     
-	private static int playerHP;
+	private static int goblinHitPoints;
+
+	private static int playerHitPoints;
 	private static String playerName;
 	private static String playerWeapon;
-	private static int monsterHP;
-	private static int silverRing;
-		
+	private static boolean playerHasSilverRing;
+
 	public static void main(String[] args) {
 		initializePlayer();
 		approachTown();
 	}
 	
 	private static void initializePlayer() {
-		playerHP = 10;
-		monsterHP = 15;
-		playerWeapon = "Knife";
+		goblinHitPoints = 15;
 
-		System.out.println("Your HP: "+ playerHP);
-		System.out.println("Your Weapon: "+ playerWeapon);
+        playerHitPoints = 10;
+        playerWeapon = "Knife";
+        playerHasSilverRing = false;
 
 		System.out.println("Please enter your name:");
 		playerName = scanner.nextLine();
 		System.out.println("Hello " + playerName + ", let's start the game!");	
+
+        System.out.println("Your HP: "+ playerHitPoints);
+		System.out.println("Your Weapon: "+ playerWeapon);
 	}	
 	
 	private static void approachTown() {
@@ -43,7 +46,7 @@ public class AdventureGame {
 		
 		switch (choice) {
             case 1:
-                if (silverRing == 1) {
+                if (playerHasSilverRing) {
                     winGame();
                 } else {
                     System.out.println("Guard: Hello there, stranger. So your name is " + playerName + "? \nSorry but we cannot let stranger enter our town.");
@@ -53,9 +56,9 @@ public class AdventureGame {
                 break;
 			
 		    case 2: 
-                playerHP = playerHP-1;
+                playerHitPoints--;
                 System.out.println("Guard: Hey don't be stupid.\n\nThe guard hit you so hard and you gave up.\n(You receive 1 damage)\n");
-                System.out.println("Your HP: " + playerHP);
+                System.out.println("Your HP: " + playerHitPoints);
                 scanner.nextLine();
                 approachTown();
                 break;
@@ -103,8 +106,8 @@ public class AdventureGame {
 		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("There is a river. You drink the water and rest at the riverside.");
 		System.out.println("Your HP is recovered.");
-		playerHP = playerHP + 1;
-		System.out.println("Your HP: " + playerHP);
+		playerHitPoints++;
+		System.out.println("Your HP: " + playerHitPoints);
 		System.out.println("\n\n1: Go back to the crossroad");
 		System.out.println("\n------------------------------------------------------------------\n");
 		int choice = scanner.nextInt();
@@ -144,7 +147,6 @@ public class AdventureGame {
 		System.out.println("1: Fight");
 		System.out.println("2: Run");
 		System.out.println("\n------------------------------------------------------------------\n");
-		
 		int choice = scanner.nextInt();
 		
         switch (choice) {
@@ -162,8 +164,8 @@ public class AdventureGame {
 	
 	private static void fight() {
 		System.out.println("\n------------------------------------------------------------------\n");
-		System.out.println("Your HP: "+ playerHP);
-		System.out.println("Monster HP: " + monsterHP);
+		System.out.println("Your HP: "+ playerHitPoints);
+		System.out.println("Monster HP: " + goblinHitPoints);
 		System.out.println("\n1: Attack");
 		System.out.println("2: Run");
 		System.out.println("\n------------------------------------------------------------------\n");
@@ -183,27 +185,36 @@ public class AdventureGame {
 	}
 	
 	private static void attack() {
-		int playerDamage = 0;
-		if (playerWeapon.equals("Knife")) {
-			playerDamage = new java.util.Random().nextInt(5); 
-		} else if (playerWeapon.equals("Long Sword")) {
-			playerDamage = new java.util.Random().nextInt(8); 
-		}
-		System.out.println("You attacked the monster and gave " + playerDamage + " damage!");
+        int maxDamage;
+        int playerDamage;
+        
+        switch (playerWeapon) {
+            case "Knife":
+                maxDamage = 5;
+                break;
+            case "Long Sword":
+                maxDamage = 8;
+                break;
+            default:
+                maxDamage = 0;
+                break;
+        }
+		playerDamage = new Random().nextInt(maxDamage); 
+
+        System.out.println("You attacked the goblin and gave " + playerDamage + " damage!");
+		goblinHitPoints -= playerDamage;
+		System.out.println("Goblin HP: " + goblinHitPoints);
 		
-		monsterHP = monsterHP - playerDamage;
-		System.out.println("Monster HP: " + monsterHP);
-		
-		if (monsterHP < 1) {
+		if (goblinHitPoints < 1) {
             winFight();
-        } else if (monsterHP > 0) {
+        } else if (goblinHitPoints > 0) {
 			int monsterDamage = new java.util.Random().nextInt(4);
 			System.out.println("The monster attacked you and gave " + monsterDamage + " damage!");
-			playerHP = playerHP - monsterDamage;
-			System.out.println("Player HP: " + playerHP);
-			if (playerHP < 1) {
+			playerHitPoints = playerHitPoints - monsterDamage;
+			System.out.println("Player HP: " + playerHitPoints);
+			if (playerHitPoints < 1) {
                 die();
-            } else if (playerHP > 0) {
+            } else if (playerHitPoints > 0) {
 				fight();
 			}
 		}
@@ -220,7 +231,7 @@ public class AdventureGame {
 		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("You killed the monster!");
 		System.out.println("The monster dropped a ring!");
-		silverRing = 1;
+		playerHasSilverRing = true;
 		System.out.println("You obtaind a silver ring!\n\n");
 		System.out.println("1: Go east");
 		System.out.println("\n------------------------------------------------------------------\n");
