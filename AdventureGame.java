@@ -7,12 +7,11 @@ public class AdventureGame {
 	private static int playerHP;
 	private static String playerName;
 	private static String playerWeapon;
-	private static int choice;
 	private static int monsterHP;
 	private static int silverRing;
 		
 	public static void main(String[] args) {
-		initializePlayer(); 	
+		initializePlayer();
 		approachTown();
 	}
 	
@@ -40,7 +39,7 @@ public class AdventureGame {
 		System.out.println("2: Attack the guard");
 		System.out.println("3: Leave");
 		System.out.println("\n------------------------------------------------------------------\n");
-		choice = scanner.nextInt();
+		int choice = scanner.nextInt();
 		
 		switch (choice) {
             case 1:
@@ -79,7 +78,7 @@ public class AdventureGame {
 		System.out.println("3: Go south");
 		System.out.println("4: Go west");
 		System.out.println("\n------------------------------------------------------------------\n");
-		choice = scanner.nextInt();
+		int choice = scanner.nextInt();
         
         switch (choice) {
             case 1:
@@ -108,7 +107,7 @@ public class AdventureGame {
 		System.out.println("Your HP: " + playerHP);
 		System.out.println("\n\n1: Go back to the crossroad");
 		System.out.println("\n------------------------------------------------------------------\n");
-		choice = scanner.nextInt();
+		int choice = scanner.nextInt();
         
         switch (choice) {
             case 1:
@@ -127,7 +126,7 @@ public class AdventureGame {
 		System.out.println("Your Weapon: "+ playerWeapon);
 		System.out.println("\n\n1: Go back to the crossroad");
 		System.out.println("\n------------------------------------------------------------------\n");
-		choice = scanner.nextInt();
+		int choice = scanner.nextInt();
 		
 		switch (choice) {
             case 1:
@@ -146,7 +145,7 @@ public class AdventureGame {
 		System.out.println("2: Run");
 		System.out.println("\n------------------------------------------------------------------\n");
 		
-		choice = scanner.nextInt();
+		int choice = scanner.nextInt();
 		
         switch (choice) {
             case 1:
@@ -168,7 +167,7 @@ public class AdventureGame {
 		System.out.println("\n1: Attack");
 		System.out.println("2: Run");
 		System.out.println("\n------------------------------------------------------------------\n");
-		choice = scanner.nextInt();
+		int choice = scanner.nextInt();
         
         switch (choice) {
             case 1:
@@ -225,7 +224,7 @@ public class AdventureGame {
 		System.out.println("You obtaind a silver ring!\n\n");
 		System.out.println("1: Go east");
 		System.out.println("\n------------------------------------------------------------------\n");
-		choice = scanner.nextInt();
+		int choice = scanner.nextInt();
 
         switch (choice) {
             case 1:
