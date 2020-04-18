@@ -43,25 +43,32 @@ public class AdventureGame {
 		System.out.println("\n------------------------------------------------------------------\n");
 		choice = scanner.nextInt();
 		
-		if (choice  ==  1) {
-			if (silverRing == 1) {
-				ending();
-			} else {
-				System.out.println("Guard: Hello there, stranger. So your name is " + playerName + "? \nSorry but we cannot let stranger enter our town.");
-				scanner.nextLine();
-				townGate();
-			}
+		switch (choice) {
+            case 1:
+                if (silverRing == 1) {
+                    ending();
+                } else {
+                    System.out.println("Guard: Hello there, stranger. So your name is " + playerName + "? \nSorry but we cannot let stranger enter our town.");
+                    scanner.nextLine();
+                    townGate();
+                }
+                break;
 			
-		} else if (choice == 2) {
-			playerHP = playerHP-1;
-			System.out.println("Guard: Hey don't be stupid.\n\nThe guard hit you so hard and you gave up.\n(You receive 1 damage)\n");
-			System.out.println("Your HP: " + playerHP);
-			scanner.nextLine();
-			townGate();
-		} else if (choice == 3) {
-			crossRoad();
-		} else {
-			townGate();
+		    case 2: 
+                playerHP = playerHP-1;
+                System.out.println("Guard: Hey don't be stupid.\n\nThe guard hit you so hard and you gave up.\n(You receive 1 damage)\n");
+                System.out.println("Your HP: " + playerHP);
+                scanner.nextLine();
+                townGate();
+                break;
+
+		    case 3:
+                crossRoad();
+                break;
+
+		    default:
+                townGate();
+                break;
 		}
 	}
 	
@@ -74,18 +81,24 @@ public class AdventureGame {
 		System.out.println("4: Go west");
 		System.out.println("\n------------------------------------------------------------------\n");
 		choice = scanner.nextInt();
-		
-		if (choice == 1) {
-			north();
-		} else if (choice == 2) {
-			east();
-		} else if (choice == 3) {
-			townGate();
-		} else if (choice == 4) {
-			west();
-		} else {
-			crossRoad();
-		}
+        
+        switch (choice) {
+            case 1:
+                north();
+                break;
+            case 2:
+                east();
+                break;
+            case 3:
+                townGate();
+                break;
+            case 4:
+                west();
+                break;
+            default:
+                crossRoad();
+                break;
+        }
 	}
 	
 	public void north() {
@@ -97,11 +110,14 @@ public class AdventureGame {
 		System.out.println("\n\n1: Go back to the crossroad");
 		System.out.println("\n------------------------------------------------------------------\n");
 		choice = scanner.nextInt();
-		
-		if (choice == 1) {
-			crossRoad();
-		} else {
-			north();
+        
+        switch (choice) {
+            case 1:
+                crossRoad();
+                break;
+            default:
+                north();
+                break;
 		}
 	}
 	
@@ -114,10 +130,13 @@ public class AdventureGame {
 		System.out.println("\n------------------------------------------------------------------\n");
 		choice = scanner.nextInt();
 		
-		if (choice == 1) {
-			crossRoad();
-		} else {
-			east();
+		switch (choice) {
+            case 1:
+                crossRoad();
+                break;
+            default:
+                east();
+                break;
 		}
 	}
 	
@@ -130,12 +149,16 @@ public class AdventureGame {
 		
 		choice = scanner.nextInt();
 		
-		if (choice == 1) {
-			fight();
-		} else if (choice == 2) {
-			crossRoad();
-		} else {
-			west();
+        switch (choice) {
+            case 1:
+                fight();
+                break;
+		    case 2:
+                crossRoad();
+                break;
+            default:
+                west();
+                break;
 		}
 	}
 	
@@ -147,13 +170,17 @@ public class AdventureGame {
 		System.out.println("2: Run");
 		System.out.println("\n------------------------------------------------------------------\n");
 		choice = scanner.nextInt();
-		
-		if (choice == 1) {
-			attack();
-		} else if (choice == 2) {
-			crossRoad();
-		} else {
-			fight();
+        
+        switch (choice) {
+            case 1:
+                attack();
+                break;
+            case 2:
+                crossRoad();
+                break;
+            default:
+                fight();
+                break;
 		}
 	}
 	
@@ -201,10 +228,13 @@ public class AdventureGame {
 		System.out.println("\n------------------------------------------------------------------\n");
 		choice = scanner.nextInt();
 
-        if (choice == 1) {
-			crossRoad();
-		} else {
-			win();
+        switch (choice) {
+            case 1:
+                crossRoad();
+                break;
+            default:
+                win();
+                break;
 		}
 	}
 	
