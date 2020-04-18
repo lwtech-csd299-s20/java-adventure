@@ -12,12 +12,12 @@ public class AdventureGame {
 	int silverRing;
 		
 	public static void main(String[] args) {
-		AdventureGame dublin = new AdventureGame();
-		dublin.playerSetUp(); 	
-		dublin.townGate();
+		AdventureGame theGame = new AdventureGame();
+		theGame.initializePlayer(); 	
+		theGame.approachTown();
 	}
 	
-	public void playerSetUp() {
+	public void initializePlayer() {
 		playerHP = 10;
 		monsterHP = 15;
 		playerWeapon = "Knife";
@@ -30,7 +30,7 @@ public class AdventureGame {
 		System.out.println("Hello " + playerName + ", let's start the game!");	
 	}	
 	
-	public void townGate() {
+	public void approachTown() {
 		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("You are at the gate of the town.");
 		System.out.println("A guard is standing in front of you.");
@@ -46,11 +46,11 @@ public class AdventureGame {
 		switch (choice) {
             case 1:
                 if (silverRing == 1) {
-                    ending();
+                    winGame();
                 } else {
                     System.out.println("Guard: Hello there, stranger. So your name is " + playerName + "? \nSorry but we cannot let stranger enter our town.");
                     scanner.nextLine();
-                    townGate();
+                    approachTown();
                 }
                 break;
 			
@@ -59,20 +59,20 @@ public class AdventureGame {
                 System.out.println("Guard: Hey don't be stupid.\n\nThe guard hit you so hard and you gave up.\n(You receive 1 damage)\n");
                 System.out.println("Your HP: " + playerHP);
                 scanner.nextLine();
-                townGate();
+                approachTown();
                 break;
 
 		    case 3:
-                crossRoad();
+                approachCrossroads();
                 break;
 
 		    default:
-                townGate();
+                approachTown();
                 break;
 		}
 	}
 	
-	public void crossRoad() {
+	public void approachCrossroads() {
 		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("You are at a crossroad. If you go south, you will go back to the town.\n\n");
 		System.out.println("1: Go north");
@@ -84,24 +84,24 @@ public class AdventureGame {
         
         switch (choice) {
             case 1:
-                north();
+                approachRiver();
                 break;
             case 2:
-                east();
+                approachForest();
                 break;
             case 3:
-                townGate();
+                approachTown();
                 break;
             case 4:
-                west();
+                approachGoblin();
                 break;
             default:
-                crossRoad();
+                approachCrossroads();
                 break;
         }
 	}
 	
-	public void north() {
+	public void approachRiver() {
 		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("There is a river. You drink the water and rest at the riverside.");
 		System.out.println("Your HP is recovered.");
@@ -113,15 +113,15 @@ public class AdventureGame {
         
         switch (choice) {
             case 1:
-                crossRoad();
+                approachCrossroads();
                 break;
             default:
-                north();
+                approachRiver();
                 break;
 		}
 	}
 	
-	public void east() {
+	public void approachForest() {
 		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("You walked into a forest and found a Long Sword!");
 		playerWeapon = "Long Sword";
@@ -132,15 +132,15 @@ public class AdventureGame {
 		
 		switch (choice) {
             case 1:
-                crossRoad();
+                approachCrossroads();
                 break;
             default:
-                east();
+                approachForest();
                 break;
 		}
 	}
 	
-	public void west() {
+	public void approachGoblin() {
 		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("You encounter a goblin!\n");
 		System.out.println("1: Fight");
@@ -154,10 +154,10 @@ public class AdventureGame {
                 fight();
                 break;
 		    case 2:
-                crossRoad();
+                approachCrossroads();
                 break;
             default:
-                west();
+                approachGoblin();
                 break;
 		}
 	}
@@ -176,7 +176,7 @@ public class AdventureGame {
                 attack();
                 break;
             case 2:
-                crossRoad();
+                approachCrossroads();
                 break;
             default:
                 fight();
@@ -197,28 +197,28 @@ public class AdventureGame {
 		System.out.println("Monster HP: " + monsterHP);
 		
 		if (monsterHP < 1) {
-            win();
+            winFight();
         } else if (monsterHP > 0) {
 			int monsterDamage = new java.util.Random().nextInt(4);
 			System.out.println("The monster attacked you and gave " + monsterDamage + " damage!");
 			playerHP = playerHP - monsterDamage;
 			System.out.println("Player HP: " + playerHP);
 			if (playerHP < 1) {
-                dead();
+                die();
             } else if (playerHP > 0) {
 				fight();
 			}
 		}
 	}
 	
-	public void dead() {
+	public void die() {
 		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("You are dead!!!");
 		System.out.println("\n\nGAME OVER");
 		System.out.println("\n------------------------------------------------------------------\n");
 	}
 	
-	public void win() {
+	public void winFight() {
 		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("You killed the monster!");
 		System.out.println("The monster dropped a ring!");
@@ -230,15 +230,15 @@ public class AdventureGame {
 
         switch (choice) {
             case 1:
-                crossRoad();
+                approachCrossroads();
                 break;
             default:
-                win();
+                winFight();
                 break;
 		}
 	}
 	
-	public void ending() {
+	public void winGame() {
 		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("Guard: Oh you killed that goblin!?? Great!");
 		System.out.println("Guard: It seems you are a trustworthy guy. Welcome to our town!");
