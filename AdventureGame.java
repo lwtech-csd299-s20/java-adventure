@@ -2,22 +2,21 @@ import java.util.Scanner;
 
 public class AdventureGame {
 	
-	Scanner scanner = new Scanner(System.in);
+	private static Scanner scanner = new Scanner(System.in);
     
-	int playerHP;
-	String playerName;
-	String playerWeapon;
-	int choice;
-	int monsterHP;
-	int silverRing;
+	private static int playerHP;
+	private static String playerName;
+	private static String playerWeapon;
+	private static int choice;
+	private static int monsterHP;
+	private static int silverRing;
 		
 	public static void main(String[] args) {
-		AdventureGame theGame = new AdventureGame();
-		theGame.initializePlayer(); 	
-		theGame.approachTown();
+		initializePlayer(); 	
+		approachTown();
 	}
 	
-	public void initializePlayer() {
+	private static void initializePlayer() {
 		playerHP = 10;
 		monsterHP = 15;
 		playerWeapon = "Knife";
@@ -30,7 +29,7 @@ public class AdventureGame {
 		System.out.println("Hello " + playerName + ", let's start the game!");	
 	}	
 	
-	public void approachTown() {
+	private static void approachTown() {
 		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("You are at the gate of the town.");
 		System.out.println("A guard is standing in front of you.");
@@ -72,7 +71,7 @@ public class AdventureGame {
 		}
 	}
 	
-	public void approachCrossroads() {
+	private static void approachCrossroads() {
 		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("You are at a crossroad. If you go south, you will go back to the town.\n\n");
 		System.out.println("1: Go north");
@@ -101,7 +100,7 @@ public class AdventureGame {
         }
 	}
 	
-	public void approachRiver() {
+	private static void approachRiver() {
 		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("There is a river. You drink the water and rest at the riverside.");
 		System.out.println("Your HP is recovered.");
@@ -121,7 +120,7 @@ public class AdventureGame {
 		}
 	}
 	
-	public void approachForest() {
+	private static void approachForest() {
 		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("You walked into a forest and found a Long Sword!");
 		playerWeapon = "Long Sword";
@@ -140,7 +139,7 @@ public class AdventureGame {
 		}
 	}
 	
-	public void approachGoblin() {
+	private static void approachGoblin() {
 		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("You encounter a goblin!\n");
 		System.out.println("1: Fight");
@@ -162,7 +161,7 @@ public class AdventureGame {
 		}
 	}
 	
-	public void fight() {
+	private static void fight() {
 		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("Your HP: "+ playerHP);
 		System.out.println("Monster HP: " + monsterHP);
@@ -184,7 +183,7 @@ public class AdventureGame {
 		}
 	}
 	
-	public void attack() {
+	private static void attack() {
 		int playerDamage = 0;
 		if (playerWeapon.equals("Knife")) {
 			playerDamage = new java.util.Random().nextInt(5); 
@@ -211,14 +210,14 @@ public class AdventureGame {
 		}
 	}
 	
-	public void die() {
+	private static void die() {
 		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("You are dead!!!");
 		System.out.println("\n\nGAME OVER");
 		System.out.println("\n------------------------------------------------------------------\n");
 	}
 	
-	public void winFight() {
+	private static void winFight() {
 		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("You killed the monster!");
 		System.out.println("The monster dropped a ring!");
@@ -238,7 +237,7 @@ public class AdventureGame {
 		}
 	}
 	
-	public void winGame() {
+	private static void winGame() {
 		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("Guard: Oh you killed that goblin!?? Great!");
 		System.out.println("Guard: It seems you are a trustworthy guy. Welcome to our town!");
