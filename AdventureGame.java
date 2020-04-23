@@ -9,144 +9,190 @@ public class AdventureGame {
 	private static int playerHitPoints;
 	private static String playerName;
 	private static String playerWeapon;
-	private static boolean playerHasSilverRing;
+    private static boolean playerHasSilverRing;
+    private static int playerLocation;
+
+    private static final int IN_TOWN = 0;
+    private static final int TOWN_GATE = 1;
+    private static final int CROSSROADS = 2;
+    private static final int FOREST = 3;
+    private static final int RIVER = 4;
+    private static final int OPEN_ROAD = 5;
+
 
 	public static void main(String[] args) {
-		initializePlayer();
-		approachTown();
+        initializePlayer();
+        while (playerHitPoints > 0 && playerLocation != IN_TOWN) {
+            takeTurn();
+        }
+        if (playerHitPoints > 0) {
+            System.out.println("Guard: Oh you killed that goblin!?? Great!");
+            System.out.println("Guard: It seems you are a trustworthy guy. Welcome to our town!");
+            System.out.println();
+            System.out.println("           THE END(?)");
+            System.out.println();
+        } else {
+            die();
+        }
 	}
 	
 	private static void initializePlayer() {
-		goblinHitPoints = 15;
-
         playerHitPoints = 10;
         playerWeapon = "Knife";
         playerHasSilverRing = false;
+        playerLocation = CROSSROADS;
 
-		System.out.println("Please enter your name:");
+		System.out.print("Please enter your name: ");
 		playerName = scanner.nextLine();
 		System.out.println("Hello " + playerName + ", let's start the game!");	
 
-        System.out.println("Your HP: "+ playerHitPoints);
-		System.out.println("Your Weapon: "+ playerWeapon);
-	}	
+    }
+    
+    private static void takeTurn() {
+
+		System.out.println("------------------------------------------------------------------");
+        System.out.print("Your Status>> Health: "+ playerHitPoints);
+        System.out.print("  Weapon: "+ playerWeapon);
+        System.out.print("  Inventory: [");
+        if (playerHasSilverRing) System.out.print("Silver Ring");
+        System.out.println("]");
+		System.out.println("------------------------------------------------------------------");
+
+        switch (playerLocation) {
+            case TOWN_GATE:
+                approachTown();
+                break;
+
+            case CROSSROADS:
+                approachCrossroads();
+                break;
+                
+            case FOREST:
+                approachForest();
+                break;
+            
+            case RIVER:
+                approachRiver();
+                break;
+            
+            case OPEN_ROAD:
+                approachGoblin();
+                break;
+
+            default:
+                break;
+        }
+    }
 	
 	private static void approachTown() {
-		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("You are at the gate of the town.");
 		System.out.println("A guard is standing in front of you.");
-		System.out.println("");
-		System.out.println("What do you want to do?");
-		System.out.println("");
 		System.out.println("1: Talk to the guard");
 		System.out.println("2: Attack the guard");
 		System.out.println("3: Leave");
-		System.out.println("\n------------------------------------------------------------------\n");
 		int choice = scanner.nextInt();
 		
 		switch (choice) {
             case 1:
                 if (playerHasSilverRing) {
-                    winGame();
+                    playerLocation = IN_TOWN;
                 } else {
-                    System.out.println("Guard: Hello there, stranger. So your name is " + playerName + "? \nSorry but we cannot let stranger enter our town.");
+                    System.out.println("Guard: Hello there, stranger. So your name is " + playerName + "? Sorry but we cannot let stranger enter our town.");
                     scanner.nextLine();
-                    approachTown();
+                    playerLocation = TOWN_GATE;
                 }
                 break;
 			
 		    case 2: 
                 playerHitPoints--;
-                System.out.println("Guard: Hey don't be stupid.\n\nThe guard hit you so hard and you gave up.\n(You receive 1 damage)\n");
-                System.out.println("Your HP: " + playerHitPoints);
-                scanner.nextLine();
-                approachTown();
+                System.out.println("Guard: Hey don't be stupid.The guard hit you so hard and you gave up. (You receive 1 damage)");
+                playerLocation = TOWN_GATE;
                 break;
 
 		    case 3:
-                approachCrossroads();
+                playerLocation = CROSSROADS;
                 break;
 
 		    default:
-                approachTown();
+                playerLocation = TOWN_GATE;
                 break;
 		}
 	}
 	
 	private static void approachCrossroads() {
-		System.out.println("\n------------------------------------------------------------------\n");
-		System.out.println("You are at a crossroad. If you go south, you will go back to the town.\n\n");
+		System.out.println("You are at a crossroad. If you go south, you will go back to the town.");
 		System.out.println("1: Go north");
 		System.out.println("2: Go east");
 		System.out.println("3: Go south");
 		System.out.println("4: Go west");
-		System.out.println("\n------------------------------------------------------------------\n");
 		int choice = scanner.nextInt();
         
         switch (choice) {
             case 1:
-                approachRiver();
+                playerLocation = RIVER;
                 break;
             case 2:
-                approachForest();
+                playerLocation = FOREST;
                 break;
             case 3:
-                approachTown();
+                playerLocation = TOWN_GATE;
                 break;
             case 4:
-                approachGoblin();
+                playerLocation = OPEN_ROAD;
                 break;
             default:
-                approachCrossroads();
+                playerLocation = CROSSROADS;
                 break;
         }
 	}
 	
 	private static void approachRiver() {
-		System.out.println("\n------------------------------------------------------------------\n");
-		System.out.println("There is a river. You drink the water and rest at the riverside.");
+        playerHitPoints++;
+        
+		System.out.println("You are at a river. You drink the water and rest at the riverside.");
 		System.out.println("Your HP is recovered.");
-		playerHitPoints++;
 		System.out.println("Your HP: " + playerHitPoints);
-		System.out.println("\n\n1: Go back to the crossroad");
-		System.out.println("\n------------------------------------------------------------------\n");
+        System.out.println("1: Go back to the crossroads");
+        System.out.println("2: Stay at the river");
 		int choice = scanner.nextInt();
         
         switch (choice) {
             case 1:
-                approachCrossroads();
+                playerLocation = CROSSROADS;
+                break;
+            case 2:
+                playerLocation = RIVER;
                 break;
             default:
-                approachRiver();
+                playerLocation = RIVER;
                 break;
 		}
 	}
 	
 	private static void approachForest() {
-		System.out.println("\n------------------------------------------------------------------\n");
-		System.out.println("You walked into a forest and found a Long Sword!");
 		playerWeapon = "Long Sword";
+
+		System.out.println("You walked into a forest and found a Long Sword!");
 		System.out.println("Your Weapon: "+ playerWeapon);
-		System.out.println("\n\n1: Go back to the crossroad");
-		System.out.println("\n------------------------------------------------------------------\n");
+		System.out.println("1: Go back to the crossroad");
 		int choice = scanner.nextInt();
 		
 		switch (choice) {
             case 1:
-                approachCrossroads();
+                playerLocation = CROSSROADS;
                 break;
             default:
-                approachForest();
+                playerLocation = FOREST;
                 break;
 		}
 	}
 	
 	private static void approachGoblin() {
-		System.out.println("\n------------------------------------------------------------------\n");
-		System.out.println("You encounter a goblin!\n");
+        goblinHitPoints = 15;
+
+		System.out.println("You encounter a goblin!");
 		System.out.println("1: Fight");
 		System.out.println("2: Run");
-		System.out.println("\n------------------------------------------------------------------\n");
 		int choice = scanner.nextInt();
 		
         switch (choice) {
@@ -154,40 +200,42 @@ public class AdventureGame {
                 fight();
                 break;
 		    case 2:
-                approachCrossroads();
+                playerLocation = CROSSROADS;
                 break;
             default:
-                approachGoblin();
+                playerLocation = OPEN_ROAD;
                 break;
 		}
 	}
 	
 	private static void fight() {
-		System.out.println("\n------------------------------------------------------------------\n");
-		System.out.println("Your HP: "+ playerHitPoints);
-		System.out.println("Monster HP: " + goblinHitPoints);
-		System.out.println("\n1: Attack");
-		System.out.println("2: Run");
-		System.out.println("\n------------------------------------------------------------------\n");
-		int choice = scanner.nextInt();
-        
-        switch (choice) {
-            case 1:
-                attack();
-                break;
-            case 2:
-                approachCrossroads();
-                break;
-            default:
-                fight();
-                break;
-		}
+        while (playerLocation == OPEN_ROAD && playerHitPoints > 0) {
+            System.out.print("Your HP: "+ playerHitPoints);
+            System.out.println(" Goblin HP: " + goblinHitPoints);
+            System.out.println("1: Attack");
+            System.out.println("2: Run");
+            int choice = scanner.nextInt();
+            
+            switch (choice) {
+                case 1:
+                    attack();
+                    if (goblinHitPoints < 1) {
+                        playerHasSilverRing = true;
+                        System.out.println("You killed the monster!");
+                        System.out.println("The monster dropped a ring!");
+                        System.out.println("You obtaind a silver ring!");
+                        playerLocation = CROSSROADS;
+                    }
+                    break;
+                case 2:
+                    playerLocation = CROSSROADS;
+                    break;
+            }
+        }
 	}
 	
 	private static void attack() {
         int maxDamage;
-        int playerDamage;
-        
         switch (playerWeapon) {
             case "Knife":
                 maxDamage = 5;
@@ -199,60 +247,23 @@ public class AdventureGame {
                 maxDamage = 0;
                 break;
         }
-		playerDamage = new Random().nextInt(maxDamage); 
+		int playerDamage = new Random().nextInt(maxDamage); 
 
         System.out.println("You attacked the goblin and gave " + playerDamage + " damage!");
 		goblinHitPoints -= playerDamage;
 		System.out.println("Goblin HP: " + goblinHitPoints);
 		
-		if (goblinHitPoints < 1) {
-            winFight();
-        } else if (goblinHitPoints > 0) {
+        if (goblinHitPoints > 0) {
 			int monsterDamage = new java.util.Random().nextInt(4);
 			System.out.println("The monster attacked you and gave " + monsterDamage + " damage!");
 			playerHitPoints = playerHitPoints - monsterDamage;
 			System.out.println("Player HP: " + playerHitPoints);
-			if (playerHitPoints < 1) {
-                die();
-            } else if (playerHitPoints > 0) {
-				fight();
-			}
 		}
 	}
 	
 	private static void die() {
-		System.out.println("\n------------------------------------------------------------------\n");
 		System.out.println("You are dead!!!");
-		System.out.println("\n\nGAME OVER");
-		System.out.println("\n------------------------------------------------------------------\n");
+		System.out.println("GAME OVER!");
 	}
-	
-	private static void winFight() {
-		System.out.println("\n------------------------------------------------------------------\n");
-		System.out.println("You killed the monster!");
-		System.out.println("The monster dropped a ring!");
-		playerHasSilverRing = true;
-		System.out.println("You obtaind a silver ring!\n\n");
-		System.out.println("1: Go east");
-		System.out.println("\n------------------------------------------------------------------\n");
-		int choice = scanner.nextInt();
-
-        switch (choice) {
-            case 1:
-                approachCrossroads();
-                break;
-            default:
-                winFight();
-                break;
-		}
-	}
-	
-	private static void winGame() {
-		System.out.println("\n------------------------------------------------------------------\n");
-		System.out.println("Guard: Oh you killed that goblin!?? Great!");
-		System.out.println("Guard: It seems you are a trustworthy guy. Welcome to our town!");
-		System.out.println("\n\n           THE END                    ");
-		System.out.println("\n------------------------------------------------------------------\n");
-    }
-    
+		
 }
