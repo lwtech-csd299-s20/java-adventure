@@ -1,7 +1,16 @@
 import java.util.*;
 
 public class AdventureGame {
-	
+
+    private enum locale {
+        IN_TOWN,
+        TOWN_GATE,
+        CROSSROADS,
+        FOREST,
+        RIVER,
+        OPEN_ROAD
+    };
+
 	private static Scanner scanner = new Scanner(System.in);
     
 	private static int goblinHitPoints;
@@ -10,19 +19,11 @@ public class AdventureGame {
 	private static String playerName;
 	private static String playerWeapon;
     private static boolean playerHasSilverRing;
-    private static int playerLocation;
-
-    private static final int IN_TOWN = 0;
-    private static final int TOWN_GATE = 1;
-    private static final int CROSSROADS = 2;
-    private static final int FOREST = 3;
-    private static final int RIVER = 4;
-    private static final int OPEN_ROAD = 5;
-
+    private static locale playerLocation;
 
 	public static void main(String[] args) {
         initializePlayer();
-        while (playerHitPoints > 0 && playerLocation != IN_TOWN) {
+        while (playerHitPoints > 0 && playerLocation != locale.IN_TOWN) {
             takeTurn();
         }
         if (playerHitPoints > 0) {
@@ -40,7 +41,7 @@ public class AdventureGame {
         playerHitPoints = 10;
         playerWeapon = "Knife";
         playerHasSilverRing = false;
-        playerLocation = CROSSROADS;
+        playerLocation = locale.CROSSROADS;
 
 		System.out.print("Please enter your name: ");
 		playerName = scanner.nextLine();
@@ -95,26 +96,26 @@ public class AdventureGame {
 		switch (choice) {
             case 1:
                 if (playerHasSilverRing) {
-                    playerLocation = IN_TOWN;
+                    playerLocation = locale.IN_TOWN;
                 } else {
                     System.out.println("Guard: Hello there, stranger. So your name is " + playerName + "? Sorry but we cannot let stranger enter our town.");
                     scanner.nextLine();
-                    playerLocation = TOWN_GATE;
+                    playerLocation = locale.TOWN_GATE;
                 }
                 break;
 			
 		    case 2: 
                 playerHitPoints--;
                 System.out.println("Guard: Hey don't be stupid.The guard hit you so hard and you gave up. (You receive 1 damage)");
-                playerLocation = TOWN_GATE;
+                playerLocation = locale.TOWN_GATE;
                 break;
 
 		    case 3:
-                playerLocation = CROSSROADS;
+                playerLocation = locale.CROSSROADS;
                 break;
 
 		    default:
-                playerLocation = TOWN_GATE;
+                playerLocation = locale.TOWN_GATE;
                 break;
 		}
 	}
@@ -129,19 +130,19 @@ public class AdventureGame {
         
         switch (choice) {
             case 1:
-                playerLocation = RIVER;
+                playerLocation = locale.RIVER;
                 break;
             case 2:
-                playerLocation = FOREST;
+                playerLocation = locale.FOREST;
                 break;
             case 3:
-                playerLocation = TOWN_GATE;
+                playerLocation = locale.TOWN_GATE;
                 break;
             case 4:
-                playerLocation = OPEN_ROAD;
+                playerLocation = locale.OPEN_ROAD;
                 break;
             default:
-                playerLocation = CROSSROADS;
+                playerLocation = locale.CROSSROADS;
                 break;
         }
 	}
@@ -158,13 +159,13 @@ public class AdventureGame {
         
         switch (choice) {
             case 1:
-                playerLocation = CROSSROADS;
+                playerLocation = locale.CROSSROADS;
                 break;
             case 2:
-                playerLocation = RIVER;
+                playerLocation = locale.RIVER;
                 break;
             default:
-                playerLocation = RIVER;
+                playerLocation = locale.RIVER;
                 break;
 		}
 	}
@@ -179,10 +180,10 @@ public class AdventureGame {
 		
 		switch (choice) {
             case 1:
-                playerLocation = CROSSROADS;
+                playerLocation = locale.CROSSROADS;
                 break;
             default:
-                playerLocation = FOREST;
+                playerLocation = locale.FOREST;
                 break;
 		}
 	}
@@ -200,16 +201,16 @@ public class AdventureGame {
                 fight();
                 break;
 		    case 2:
-                playerLocation = CROSSROADS;
+                playerLocation = locale.CROSSROADS;
                 break;
             default:
-                playerLocation = OPEN_ROAD;
+                playerLocation = locale.OPEN_ROAD;
                 break;
 		}
 	}
 	
 	private static void fight() {
-        while (playerLocation == OPEN_ROAD && playerHitPoints > 0) {
+        while (playerLocation == locale.OPEN_ROAD && playerHitPoints > 0) {
             System.out.print("Your HP: "+ playerHitPoints);
             System.out.println(" Goblin HP: " + goblinHitPoints);
             System.out.println("1: Attack");
@@ -224,11 +225,11 @@ public class AdventureGame {
                         System.out.println("You killed the monster!");
                         System.out.println("The monster dropped a ring!");
                         System.out.println("You obtaind a silver ring!");
-                        playerLocation = CROSSROADS;
+                        playerLocation = locale.CROSSROADS;
                     }
                     break;
                 case 2:
-                    playerLocation = CROSSROADS;
+                    playerLocation = locale.CROSSROADS;
                     break;
             }
         }
